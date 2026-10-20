@@ -70,7 +70,7 @@ jobs:
           key: cloud189-token-${{ env.TOKEN_HASH }}
 
       - name: 🚗 Keep Running
-        if: github.event_name == 'schedule'
+        if: always() && github.event_name == 'schedule'
         run: |
           git config --local user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
           git config --local user.name "${{ github.actor }}"
@@ -80,6 +80,7 @@ jobs:
           git push
 
       - name: 🎉 Delete old workflow run
+        if: always()
         uses: Mattraks/delete-workflow-runs@main
         with:
           token: ${{ github.token }}
